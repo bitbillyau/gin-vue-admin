@@ -36,6 +36,7 @@
   "/src/view/layout/setting/index.vue": "GvaSetting",
   "/src/view/layout/setting/title.vue": "layoutSettingTitle",
   "/src/view/layout/tabs/index.vue": "HistoryComponent",
+  "/src/view/lbank/dbpage.vue": "Dbpage",
   "/src/view/login/index.vue": "Login",
   "/src/view/person/person.vue": "Person",
   "/src/view/routerHolder.vue": "RouterHolder",
