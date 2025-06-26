@@ -1,6 +1,8 @@
 package lbank
 
 import (
+	"fmt"
+
 	"github.com/flipped-aurora/gin-vue-admin/server/global"
 	"github.com/flipped-aurora/gin-vue-admin/server/model/common/response"
 	"github.com/gin-gonic/gin"
@@ -27,7 +29,7 @@ func (s *SyncServerStrategySymbolApi) SyncServerStrategySymbol(c *gin.Context) {
 	}
 
 	// 执行插入SQL
-	err := db.Exec(`
+	result := db.Exec(`
 	INSERT INTO server_strategy_symbol 
 		(server_id, strategy_symbol_id, status)
 	SELECT 
@@ -42,7 +44,9 @@ func (s *SyncServerStrategySymbolApi) SyncServerStrategySymbol(c *gin.Context) {
 			FROM server_strategy_symbol sss
 			WHERE sss.strategy_symbol_id = ssr.id AND sss.server_id = s.server_id
     )`,
-	).Error
+	)
+	err := result.Error
+	rowsAffected := result.RowsAffected
 
 	if err != nil {
 		global.GVA_LOG.Error("插入数据失败", zap.Error(err))
@@ -50,6 +54,12 @@ func (s *SyncServerStrategySymbolApi) SyncServerStrategySymbol(c *gin.Context) {
 		return
 	}
 
-	global.GVA_LOG.Info("向server_strategy_symbol表插入数据成功")
-	response.OkWithMessage("同步成功", c)
+	if err != nil {
+		global.GVA_LOG.Error("插入数据失败", zap.Error(err))
+		response.FailWithMessage("插入数据失败: "+err.Error(), c)
+		return
+	}
+
+	global.GVA_LOG.Info("向server_strategy_symbol表插入数据成功. ", zap.Int64("受影响的行数:", rowsAffected))
+	response.OkWithMessage(fmt.Sprintf("同步成功, 受影响的行数:%d", rowsAffected), c)
 }
