@@ -18,23 +18,38 @@ type SyncServerStrategySymbolApi struct{}
 // @Success   200   {object}  response.Response{msg=string}  "同步成功"
 // @Router    /db/syncServerStrategySymbol [post]
 func (s *SyncServerStrategySymbolApi) SyncServerStrategySymbol(c *gin.Context) {
-	// 获取hq数据库连接
-	hqDB := global.GetGlobalDBByDBName("daemon")
-	if hqDB == nil {
-		global.GVA_LOG.Error("hq数据库连接不存在")
-		response.FailWithMessage("数据库连接失败", c)
+	// 获取数据库连接
+	db := global.GetGlobalDBByDBName("daemon")
+	if db == nil {
+		global.GVA_LOG.Error("daemonDB连接不存在")
+		response.FailWithMessage("daemonDB连接失败", c)
 		return
 	}
 
 	// 执行插入SQL
-	sql := "INSERT INTO test (name, date) VALUES ('gin-vue-admin', NOW())"
-	err := hqDB.Exec(sql).Error
+	err := db.Exec(`
+	INSERT INTO server_strategy_symbol 
+		(server_id, strategy_symbol_id, status)
+	SELECT 
+		s.server_id,
+		ssr.id,
+		ssr.status
+	FROM server_strategy_rel ssr
+	CROSS JOIN (SELECT 1 AS server_id UNION SELECT 2) s
+	WHERE ssr.status IS NOT NULL
+		AND NOT EXISTS (
+			SELECT 1
+			FROM server_strategy_symbol sss
+			WHERE sss.strategy_symbol_id = ssr.id AND sss.server_id = s.server_id
+    )`,
+	).Error
+
 	if err != nil {
 		global.GVA_LOG.Error("插入数据失败", zap.Error(err))
 		response.FailWithMessage("插入数据失败: "+err.Error(), c)
 		return
 	}
 
-	global.GVA_LOG.Info("成功向hq.test表插入记录")
+	global.GVA_LOG.Info("向server_strategy_symbol表插入数据成功")
 	response.OkWithMessage("同步成功", c)
 }
