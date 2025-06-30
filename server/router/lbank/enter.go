@@ -9,11 +9,13 @@ type RouterGroup struct {
 	ApiAccountRouter
 	InstrumentRouter
 	ApiSubRelRouter
+	ServerApiRelRouter
 }
 
 var (
-	dbPageApi     = api.ApiGroupApp.LbankApiGroup.DbPageApi
-	apiAccountApi = api.ApiGroupApp.LbankApiGroup.ApiAccountApi
-	instrumentApi = api.ApiGroupApp.LbankApiGroup.InstrumentApi
-	apiSubRelApi  = api.ApiGroupApp.LbankApiGroup.ApiSubRelApi
+	dbPageApi       = api.ApiGroupApp.LbankApiGroup.DbPageApi
+	apiAccountApi   = api.ApiGroupApp.LbankApiGroup.ApiAccountApi
+	instrumentApi   = api.ApiGroupApp.LbankApiGroup.InstrumentApi
+	apiSubRelApi    = api.ApiGroupApp.LbankApiGroup.ApiSubRelApi
+	serverApiRelApi = api.ApiGroupApp.LbankApiGroup.ServerApiRelApi
 )

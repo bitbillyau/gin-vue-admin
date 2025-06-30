@@ -7,11 +7,11 @@ import (
 
 func bizModel() error {
 	db := global.GVA_DB
-	err := db.AutoMigrate(lbank.ApiAccount{}, lbank.Instrument{})
+	err := db.AutoMigrate()
 	if err != nil {
 		return err
 	}
 	daemonDb := global.GetGlobalDBByDBName("daemon")
-	daemonDb.AutoMigrate(lbank.ApiSubRel{})
+	daemonDb.AutoMigrate(lbank.ApiAccount{},lbank.Instrument{},lbank.ApiSubRel{}, lbank.ServerApiRel{})
 	return nil
 }

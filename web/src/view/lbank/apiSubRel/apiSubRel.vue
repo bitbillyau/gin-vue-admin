@@ -92,8 +92,8 @@
                 <el-input v-model="formData.showName" :clearable="true" placeholder="请输入子账户备注" />
             </el-form-item>
              <el-form-item label="是否生效:" prop="status">
-                <el-select   v-model="formData.status" clearable placeholder="请选择是否生效">
-                  <el-option label="生效" :value="1" />
+                <el-select   v-model="formData.status" clearable placeholder="请选择是否有效">
+                  <el-option label="有效" :value="1" />
                 </el-select>
               </el-form-item>
           </el-form>

@@ -34,20 +34,18 @@
         
             <el-table-column align="left" label="序号" prop="id" width="120" />
 
-            <el-table-column align="left" label="交易所" prop="exchId" width="120" />
+            <el-table-column align="left" label="服务器节点" prop="serverId" width="120" />
 
+            <el-table-column align="left" label="交易账户序号" prop="apiId" width="120" />
 
-            <el-table-column align="left" label="交易对名称" prop="name" width="120" />
-
-            <el-table-column align="left" label="交易对编号" prop="instId" width="120" />
-
+            <el-table-column align="left" label="交易对序号" prop="instId" width="120" />
 
             <el-table-column align="left" label="是否有效" prop="status" width="120" />
 
         <el-table-column align="left" label="操作" fixed="right" :min-width="appStore.operateMinWith">
             <template #default="scope">
             <el-button  type="primary" link class="table-button" @click="getDetails(scope.row)"><el-icon style="margin-right: 5px"><InfoFilled /></el-icon>查看</el-button>
-            <el-button  type="primary" link icon="edit" class="table-button" @click="updateInstrumentFunc(scope.row)">编辑</el-button>
+            <el-button  type="primary" link icon="edit" class="table-button" @click="updateServerApiRelFunc(scope.row)">编辑</el-button>
             <el-button   type="primary" link icon="delete" @click="deleteRow(scope.row)">删除</el-button>
             </template>
         </el-table-column>
@@ -76,50 +74,39 @@
             </template>
 
           <el-form :model="formData" label-position="top" ref="elFormRef" :rules="rule" label-width="80px">
-              <el-form-item label="序号:" prop="id">
-                  <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入序号" />
-              </el-form-item>
-              <el-form-item label="交易所ID:" prop="exchId">
-                  <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所ID">
-                    <el-option
-                      v-for="item in exchangeOptions"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    />
-                  </el-select>
-              </el-form-item>
-              <el-form-item label="交易对名称:" prop="name">
-                <el-input v-model="formData.name" :clearable="true" placeholder="请输入交易对名称" />
-              </el-form-item>
-
-              <el-form-item label="交易对编号:" prop="instId">
-                <el-input v-model.number="formData.instId" :clearable="true" placeholder="请输入交易对编号" />
-              </el-form-item>
-          
-              <el-form-item label="是否生效:" prop="status">
+            <el-form-item label="序号:" prop="id">
+              <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入控制序号" />
+            </el-form-item>
+                        <el-form-item label="服务器节点:" prop="serverId">
+                <el-input v-model.number="formData.serverId" :clearable="true" placeholder="请输入服务器序号" />
+            </el-form-item>
+                        <el-form-item label="交易账户序号:" prop="apiId">
+                <el-input v-model.number="formData.apiId" :clearable="true" placeholder="请输入账户序号" />
+            </el-form-item>
+                        <el-form-item label="交易对序号:" prop="instId">
+                <el-input v-model.number="formData.instId" :clearable="true" placeholder="请输入交易对序号" />
+            </el-form-item>
+            <el-form-item label="是否生效:" prop="status">
                 <el-select   v-model="formData.status" clearable placeholder="请选择是否有效">
                   <el-option label="有效" :value="1" />
                 </el-select>
-              </el-form-item>
+            </el-form-item>
           </el-form>
     </el-drawer>
 
     <el-drawer destroy-on-close :size="appStore.drawerSize" v-model="detailShow" :show-close="true" :before-close="closeDetailShow" title="查看">
             <el-descriptions :column="1" border>
-                    <el-descriptions-item label="序号">
+                    <el-descriptions-item label="控制序号">
     {{ detailFrom.id }}
 </el-descriptions-item>
-                    <el-descriptions-item label="交易所">
-    {{ detailFrom.exchId }}
+                    <el-descriptions-item label="服务器序号">
+    服务器节点 {{ detailFrom.serverId }}
 </el-descriptions-item>
-                 
-                    <el-descriptions-item label="交易对名称">
-    {{ detailFrom.name }}
+                    <el-descriptions-item label="交易账户序号">
+    {{ detailFrom.apiId }}
 </el-descriptions-item>
-
-   <el-descriptions-item label="交易对编号">
-    {{ detailFrom.instId }}
+                    <el-descriptions-item label="交易对序号">
+    {{ detailFrom.instId }} 
 </el-descriptions-item>
                     <el-descriptions-item label="是否有效">
     {{ detailFrom.status }}
@@ -132,13 +119,13 @@
 
 <script setup>
 import {
-  createInstrument,
-  deleteInstrument,
-  deleteInstrumentByIds,
-  updateInstrument,
-  findInstrument,
-  getInstrumentList
-} from '@/api/lbank/instrument'
+  createServerApiRel,
+  deleteServerApiRel,
+  deleteServerApiRelByIds,
+  updateServerApiRel,
+  findServerApiRel,
+  getServerApiRelList
+} from '@/api/lbank/serverApiRel'
 
 // 全量引入格式化工具 请按需保留
 import { getDictFunc, formatDate, formatBoolean, filterDict ,filterDataSource, returnArrImg, onDownloadFile } from '@/utils/format'
@@ -150,14 +137,13 @@ import { useAppStore } from "@/pinia"
 
 
 defineOptions({
-    name: 'Instrument'
+    name: 'ServerApiRel'
 })
 
-const exchangeOptions = ref([
-  { label: 'Binance', value: 1 },
-  { label: 'OKX', value: 2 },
-  { label: 'LBANK', value: 3 },
-])
+
+const formatStatus = (status) => {
+  return status === 1 ? '有效' : status === 0 ? '未生效' : '未知状态'
+}
 
 // 提交按钮loading
 const btnLoading = ref(false)
@@ -169,21 +155,13 @@ const showAllQuery = ref(false)
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
             id: undefined,
-            exchId: undefined,
+            serverId: undefined,
+            apiId: undefined,
             instId: undefined,
-            name: '',
             status: 1,
         })
 
 
-// Transformation functions
-const formatExchId = (exchId) => {
-  return exchangeOptions.value.find(opt => opt.value === exchId)?.label || exchId || '未知交易所'
-}
-
-const formatStatus = (status) => {
-  return status === 1 ? '有效' : status === 0 ? '未生效' : '未知状态'
-}
 
 // 验证规则
 const rule = reactive({
@@ -227,13 +205,12 @@ const handleCurrentChange = (val) => {
 
 // 查询
 const getTableData = async() => {
-  const table = await getInstrumentList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
+  const table = await getServerApiRelList({ page: page.value, pageSize: pageSize.value, ...searchInfo.value })
   if (table.code === 0) {
-  tableData.value = table.data.list.map(item => ({
-            ...item,
-            exchId: formatExchId(item.exchId),
-            status: formatStatus(item.status)
-      }))
+    tableData.value = table.data.list.map(item => ({
+          ...item,
+          status: formatStatus(item.status)
+    }))
     total.value = table.data.total
     page.value = table.data.page
     pageSize.value = table.data.pageSize
@@ -266,7 +243,7 @@ const deleteRow = (row) => {
         cancelButtonText: '取消',
         type: 'warning'
     }).then(() => {
-            deleteInstrumentFunc(row)
+            deleteServerApiRelFunc(row)
         })
     }
 
@@ -289,7 +266,7 @@ const onDelete = async() => {
         multipleSelection.value.map(item => {
           ids.push(item.id)
         })
-      const res = await deleteInstrumentByIds({ ids })
+      const res = await deleteServerApiRelByIds({ ids })
       if (res.code === 0) {
         ElMessage({
           type: 'success',
@@ -307,8 +284,8 @@ const onDelete = async() => {
 const type = ref('')
 
 // 更新行
-const updateInstrumentFunc = async(row) => {
-    const res = await findInstrument({ id: row.id })
+const updateServerApiRelFunc = async(row) => {
+    const res = await findServerApiRel({ id: row.id })
     type.value = 'update'
     if (res.code === 0) {
         formData.value = res.data
@@ -318,8 +295,8 @@ const updateInstrumentFunc = async(row) => {
 
 
 // 删除行
-const deleteInstrumentFunc = async (row) => {
-    const res = await deleteInstrument({ id: row.id })
+const deleteServerApiRelFunc = async (row) => {
+    const res = await deleteServerApiRel({ id: row.id })
     if (res.code === 0) {
         ElMessage({
                 type: 'success',
@@ -346,9 +323,9 @@ const closeDialog = () => {
     dialogFormVisible.value = false
     formData.value = {
         id: undefined,
-        exchId: undefined,
+        serverId: undefined,
+        apiId: undefined,
         instId: undefined,
-        name: '',
         status: undefined,
         }
 }
@@ -360,13 +337,13 @@ const enterDialog = async () => {
               let res
               switch (type.value) {
                 case 'create':
-                  res = await createInstrument(formData.value)
+                  res = await createServerApiRel(formData.value)
                   break
                 case 'update':
-                  res = await updateInstrument(formData.value)
+                  res = await updateServerApiRel(formData.value)
                   break
                 default:
-                  res = await createInstrument(formData.value)
+                  res = await createServerApiRel(formData.value)
                   break
               }
               btnLoading.value = false
@@ -396,13 +373,12 @@ const openDetailShow = () => {
 // 打开详情
 const getDetails = async (row) => {
   // 打开弹窗
-  const res = await findInstrument({ id: row.id })
+  const res = await findServerApiRel({ id: row.id })
   if (res.code === 0) {
     detailFrom.value = {
-          ...res.data,
-          exchId: formatExchId(res.data.exchId), // Transform exchId for detail view
-          status: formatStatus(res.data.status) // Transform status for detail view
-        }
+      ...res.data,
+      status: formatStatus(res.data.status) // Transform status for detail view
+    }  
     openDetailShow()
   }
 }

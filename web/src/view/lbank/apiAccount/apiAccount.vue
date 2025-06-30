@@ -46,7 +46,7 @@
 
             <el-table-column align="left" label="交易所ID" prop="exchId" width="120" />
 
-            <el-table-column align="left" label="是否生效" prop="status" width="120" />
+            <el-table-column align="left" label="是否有效" prop="status" width="120" />
 
         <el-table-column align="left" label="操作" fixed="right" :min-width="appStore.operateMinWith">
             <template #default="scope">
@@ -109,8 +109,8 @@
                 </el-select>
             </el-form-item>
              <el-form-item label="是否生效:" prop="status">
-                <el-select   v-model="formData.status" clearable placeholder="请选择是否生效">
-                  <el-option label="生效" :value="1" />
+                <el-select   v-model="formData.status" clearable placeholder="请选择是否有效">
+                  <el-option label="有效" :value="1" />
                 </el-select>
               </el-form-item>
           </el-form>
@@ -139,7 +139,7 @@
                     <el-descriptions-item label="交易所ID">
     {{ detailFrom.exchId }}
 </el-descriptions-item>
-                    <el-descriptions-item label="是否生效">
+                    <el-descriptions-item label="是否有效">
     {{ detailFrom.status }}
 </el-descriptions-item>
             </el-descriptions>
