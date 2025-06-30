@@ -12,35 +12,35 @@ type InstrumentService struct {}
 // CreateInstrument 创建交易对管理记录
 // Author [yourname](https://github.com/yourname)
 func (instrumentService *InstrumentService) CreateInstrument(ctx context.Context, instrument *lbank.Instrument) (err error) {
-	err = global.GVA_DB.Create(instrument).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Create(instrument).Error
 	return err
 }
 
 // DeleteInstrument 删除交易对管理记录
 // Author [yourname](https://github.com/yourname)
 func (instrumentService *InstrumentService)DeleteInstrument(ctx context.Context, id string) (err error) {
-	err = global.GVA_DB.Delete(&lbank.Instrument{},"id = ?",id).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Delete(&lbank.Instrument{},"id = ?",id).Error
 	return err
 }
 
 // DeleteInstrumentByIds 批量删除交易对管理记录
 // Author [yourname](https://github.com/yourname)
 func (instrumentService *InstrumentService)DeleteInstrumentByIds(ctx context.Context, ids []string) (err error) {
-	err = global.GVA_DB.Delete(&[]lbank.Instrument{},"id in ?",ids).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Delete(&[]lbank.Instrument{},"id in ?",ids).Error
 	return err
 }
 
 // UpdateInstrument 更新交易对管理记录
 // Author [yourname](https://github.com/yourname)
 func (instrumentService *InstrumentService)UpdateInstrument(ctx context.Context, instrument lbank.Instrument) (err error) {
-	err = global.GVA_DB.Model(&lbank.Instrument{}).Where("id = ?",instrument.Id).Updates(&instrument).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Model(&lbank.Instrument{}).Where("id = ?",instrument.Id).Updates(&instrument).Error
 	return err
 }
 
 // GetInstrument 根据id获取交易对管理记录
 // Author [yourname](https://github.com/yourname)
 func (instrumentService *InstrumentService)GetInstrument(ctx context.Context, id string) (instrument lbank.Instrument, err error) {
-	err = global.GVA_DB.Where("id = ?", id).First(&instrument).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Where("id = ?", id).First(&instrument).Error
 	return
 }
 // GetInstrumentInfoList 分页获取交易对管理记录
@@ -49,7 +49,7 @@ func (instrumentService *InstrumentService)GetInstrumentInfoList(ctx context.Con
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
     // 创建db
-	db := global.GVA_DB.Model(&lbank.Instrument{})
+	db := global.MustGetGlobalDBByDBName("daemon").Model(&lbank.Instrument{})
     var instruments []lbank.Instrument
     // 如果有条件搜索 下方会自动创建搜索语句
     

@@ -11,5 +11,7 @@ func bizModel() error {
 	if err != nil {
 		return err
 	}
+	daemonDb := global.GetGlobalDBByDBName("daemon")
+	daemonDb.AutoMigrate(lbank.ApiSubRel{})
 	return nil
 }

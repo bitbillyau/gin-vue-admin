@@ -12,35 +12,35 @@ type ApiAccountService struct {}
 // CreateApiAccount 创建做市账户管理记录
 // Author [yourname](https://github.com/yourname)
 func (apiAccountService *ApiAccountService) CreateApiAccount(ctx context.Context, apiAccount *lbank.ApiAccount) (err error) {
-	err = global.GVA_DB.Create(apiAccount).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Create(apiAccount).Error
 	return err
 }
 
 // DeleteApiAccount 删除做市账户管理记录
 // Author [yourname](https://github.com/yourname)
 func (apiAccountService *ApiAccountService)DeleteApiAccount(ctx context.Context, id string) (err error) {
-	err = global.GVA_DB.Delete(&lbank.ApiAccount{},"id = ?",id).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Delete(&lbank.ApiAccount{},"id = ?",id).Error
 	return err
 }
 
 // DeleteApiAccountByIds 批量删除做市账户管理记录
 // Author [yourname](https://github.com/yourname)
 func (apiAccountService *ApiAccountService)DeleteApiAccountByIds(ctx context.Context, ids []string) (err error) {
-	err = global.GVA_DB.Delete(&[]lbank.ApiAccount{},"id in ?",ids).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Delete(&[]lbank.ApiAccount{},"id in ?",ids).Error
 	return err
 }
 
 // UpdateApiAccount 更新做市账户管理记录
 // Author [yourname](https://github.com/yourname)
 func (apiAccountService *ApiAccountService)UpdateApiAccount(ctx context.Context, apiAccount lbank.ApiAccount) (err error) {
-	err = global.GVA_DB.Model(&lbank.ApiAccount{}).Where("id = ?",apiAccount.Id).Updates(&apiAccount).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Model(&lbank.ApiAccount{}).Where("id = ?",apiAccount.Id).Updates(&apiAccount).Error
 	return err
 }
 
 // GetApiAccount 根据id获取做市账户管理记录
 // Author [yourname](https://github.com/yourname)
 func (apiAccountService *ApiAccountService)GetApiAccount(ctx context.Context, id string) (apiAccount lbank.ApiAccount, err error) {
-	err = global.GVA_DB.Where("id = ?", id).First(&apiAccount).Error
+	err = global.MustGetGlobalDBByDBName("daemon").Where("id = ?", id).First(&apiAccount).Error
 	return
 }
 // GetApiAccountInfoList 分页获取做市账户管理记录
@@ -49,7 +49,7 @@ func (apiAccountService *ApiAccountService)GetApiAccountInfoList(ctx context.Con
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
     // 创建db
-	db := global.GVA_DB.Model(&lbank.ApiAccount{})
+	db := global.MustGetGlobalDBByDBName("daemon").Model(&lbank.ApiAccount{})
     var apiAccounts []lbank.ApiAccount
     // 如果有条件搜索 下方会自动创建搜索语句
     
