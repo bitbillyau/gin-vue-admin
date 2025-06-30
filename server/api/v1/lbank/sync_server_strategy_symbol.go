@@ -9,8 +9,6 @@ import (
 	"go.uber.org/zap"
 )
 
-type SyncServerStrategySymbolApi struct{}
-
 // SyncServerStrategySymbol 同步server_strategy_symbol
 // @Tags      Lbank
 // @Summary   同步server_strategy_symbol
@@ -19,7 +17,10 @@ type SyncServerStrategySymbolApi struct{}
 // @Produce   application/json
 // @Success   200   {object}  response.Response{msg=string}  "同步成功"
 // @Router    /db/syncServerStrategySymbol [post]
-func (s *SyncServerStrategySymbolApi) SyncServerStrategySymbol(c *gin.Context) {
+func (s *DbPageApi) SyncServerStrategySymbol(c *gin.Context) {
+	// 获取当前操作用户
+	// username := utils.GetUserName(c)
+
 	// 获取数据库连接
 	db := global.GetGlobalDBByDBName("daemon")
 	if db == nil {

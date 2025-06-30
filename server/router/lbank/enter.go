@@ -9,5 +9,5 @@ type RouterGroup struct {
 }
 
 var (
-	syncServerStrategySymbolApi = api.ApiGroupApp.LbankApiGroup.SyncServerStrategySymbolApi
+	dbPageApi = api.ApiGroupApp.LbankApiGroup.DbPageApi
 )
