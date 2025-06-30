@@ -46,6 +46,8 @@ export default ({ mode }) => {
   const root = "./"
   const outDir = "dist"
 
+  console.log('Proxy Target:', `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}`)
+
   const config = {
     base: base, // 编译后js导入的资源路径
     root: root, // index.html文件所在位置
@@ -74,8 +76,9 @@ export default ({ mode }) => {
           // 需要代理的路径   例如 '/api'
           target: `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}/`, // 代理到 目标路径
           changeOrigin: true,
-          rewrite: (path) =>
-            path.replace(new RegExp('^' + process.env.VITE_BASE_API), '')
+        //   rewrite: (path) =>
+        //     path.replace(new RegExp('^' + process.env.VITE_BASE_API), '')
+
         }
       }
     },
@@ -114,5 +117,7 @@ export default ({ mode }) => {
       VueFilePathPlugin('./src/pathInfo.json')
     ]
   }
+  console.log('Proxy Target:', `${process.env.VITE_BASE_PATH}:${process.env.VITE_SERVER_PORT}`);
+
   return config
 }
