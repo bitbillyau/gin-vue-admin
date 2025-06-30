@@ -39,6 +39,8 @@
   "/src/view/lbank/apiAccount/apiAccount.vue": "ApiAccount",
   "/src/view/lbank/apiAccount/apiAccountForm.vue": "ApiAccountForm",
   "/src/view/lbank/dbpage.vue": "Dbpage",
+  "/src/view/lbank/instrument/instrument.vue": "Instrument",
+  "/src/view/lbank/instrument/instrumentForm.vue": "InstrumentForm",
   "/src/view/login/index.vue": "Login",
   "/src/view/person/person.vue": "Person",
   "/src/view/routerHolder.vue": "RouterHolder",

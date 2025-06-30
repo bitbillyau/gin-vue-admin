@@ -1,3 +1,6 @@
 package lbank
 
-type ServiceGroup struct{ ApiAccountService }
+type ServiceGroup struct {
+	ApiAccountService
+	InstrumentService
+}

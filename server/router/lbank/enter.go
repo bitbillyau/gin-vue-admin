@@ -7,9 +7,11 @@ import (
 type RouterGroup struct {
 	DbRouter
 	ApiAccountRouter
+	InstrumentRouter
 }
 
 var (
 	dbPageApi     = api.ApiGroupApp.LbankApiGroup.DbPageApi
 	apiAccountApi = api.ApiGroupApp.LbankApiGroup.ApiAccountApi
+	instrumentApi = api.ApiGroupApp.LbankApiGroup.InstrumentApi
 )
