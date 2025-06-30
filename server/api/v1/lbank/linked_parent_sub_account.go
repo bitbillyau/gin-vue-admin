@@ -38,9 +38,9 @@ func (s *DbPageApi) GetSymbolsForLinkedLbankAccount(c *gin.Context) {
 			ins.id, ins.name 
 		FROM instrument ins
 		LEFT JOIN api_sub_rel sub
-			ON ins.id = sub.inst_id
+			ON ins.id = sub.inst_id AND sub.sub_type = '1'
 		WHERE
-			sub.sub_type = '1' AND sub.id IS NULL`,
+			ins.exch_id = 3 AND sub.id IS NULL`,
 	).Scan(&names)
 	err := result.Error
 	rowsAffected := result.RowsAffected
