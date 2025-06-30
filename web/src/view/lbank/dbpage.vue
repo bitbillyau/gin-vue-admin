@@ -34,6 +34,9 @@
             </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
+        <el-form-item style="text-align: right;">
+          <el-button type="primary" @click="handleSubmit">提交</el-button>
+        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -42,7 +45,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useBtnAuth } from '@/utils/btnAuth'
-import { syncServerStrategySymbol, getSymbolsForAddLbankAccount, getLbankAccounts } from '@/api/lbank/db'
+import { syncServerStrategySymbol, getSymbolsForLinkedLbankAccount, getLbankAccounts, submitLinkedLbankSubAccounts } from '@/api/lbank/db'
 import { ElMessage } from 'element-plus'
 
 const btnAuth = useBtnAuth()
@@ -54,7 +57,7 @@ const selectedAccount = ref()
 
 const fetchSymbolList = async () => {
   try {
-    const res = await getSymbolsForAddLbankAccount()
+    const res = await getSymbolsForLinkedLbankAccount()
     if (res.code === 0) {
       symbolList.value = res.data || []
     } else {
@@ -94,6 +97,31 @@ const handleSyncServerStrategySymbol = async () => {
     ElMessage.error('同步失败，请稍后重试')
   } finally {
     loading.value = false
+  }
+}
+
+const handleSubmit = async () => {
+  if (!selectedAccount.value) {
+    ElMessage.error('请选择母账号')
+    return
+  }
+  if (!checkedSymbols.value.length) {
+    ElMessage.error('请至少选择一个子账号')
+    return
+  }
+  try {
+    const res = await submitLinkedLbankSubAccounts({
+      parentId: selectedAccount.value,
+      subAccountIds: checkedSymbols.value
+    })
+    if (res.code === 0) {
+      ElMessage.success(res.msg || '提交成功')
+    } else {
+      ElMessage.error(res.msg || '提交失败')
+    }
+  } catch (error) {
+    console.error('提交失败:', error)
+    ElMessage.error('提交失败，请稍后重试')
   }
 }
 
