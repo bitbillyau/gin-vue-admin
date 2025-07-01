@@ -193,6 +193,9 @@ func (i *initCasbin) InitializeData(ctx context.Context) (context.Context, error
 		{Ptype: "p", V0: "888", V1: "/attachmentCategory/deleteCategory", V2: "POST"},
 
 		{Ptype: "p", V0: "888", V1: "/db/syncServerStrategySymbol", V2: "POST"},
+		{Ptype: "p", V0: "888", V1: "/db/getSymbolsForLinkedLbankAccount", V2: "GET"},
+		{Ptype: "p", V0: "888", V1: "/db/getLbankAccounts", V2: "GET"},
+		{Ptype: "p", V0: "888", V1: "/db/submitLinkedLbankSubAccounts", V2: "POST"},
 
 		{Ptype: "p", V0: "8881", V1: "/user/admin_register", V2: "POST"},
 		{Ptype: "p", V0: "8881", V1: "/api/createApi", V2: "POST"},

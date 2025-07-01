@@ -1,5 +1,7 @@
 package lbank
 
 type ApiGroup struct {
-	SyncServerStrategySymbolApi
+	DbPageApi
 }
+
+type DbPageApi struct{}
