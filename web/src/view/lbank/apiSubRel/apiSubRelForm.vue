@@ -3,8 +3,8 @@
   <div>
     <div class="gva-form-box">
       <el-form :model="formData" ref="elFormRef" label-position="right" :rules="rule" label-width="80px">
-        <el-form-item label="id字段:" prop="id">
-    <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入id字段" />
+        <el-form-item label="序号:" prop="id">
+    <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入序号" />
 </el-form-item>
         <el-form-item label="账户序号:" prop="apiId">
     <el-input v-model.number="formData.apiId" :clearable="true" placeholder="请输入账户序号" />

@@ -32,7 +32,7 @@
         >
         <el-table-column type="selection" width="55" />
         
-            <el-table-column align="left" label="id字段" prop="id" width="120" />
+            <el-table-column align="left" label="序号" prop="id" width="120" />
 
             <el-table-column align="left" label="账户序号" prop="apiId" width="120" />
 
@@ -42,7 +42,7 @@
 
             <el-table-column align="left" label="子账户备注" prop="showName" width="120" />
 
-            <el-table-column align="left" label="status字段" prop="status" width="120" />
+            <el-table-column align="left" label="是否生效" prop="status" width="120" />
 
         <el-table-column align="left" label="操作" fixed="right" :min-width="appStore.operateMinWith">
             <template #default="scope">
@@ -76,8 +76,8 @@
             </template>
 
           <el-form :model="formData" label-position="top" ref="elFormRef" :rules="rule" label-width="80px">
-            <el-form-item label="id字段:" prop="id">
-                <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入id字段" />
+            <el-form-item label="序号:" prop="id">
+                <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入序号" />
             </el-form-item>
             <el-form-item label="账户序号:" prop="apiId">
                 <el-input v-model.number="formData.apiId" :clearable="true" placeholder="请输入账户序号" />
@@ -101,7 +101,7 @@
 
     <el-drawer destroy-on-close :size="appStore.drawerSize" v-model="detailShow" :show-close="true" :before-close="closeDetailShow" title="查看">
             <el-descriptions :column="1" border>
-                    <el-descriptions-item label="id字段">
+                    <el-descriptions-item label="序号">
     {{ detailFrom.id }}
 </el-descriptions-item>
                     <el-descriptions-item label="账户序号">
@@ -116,7 +116,7 @@
                     <el-descriptions-item label="子账户备注">
     {{ detailFrom.showName }}
 </el-descriptions-item>
-                    <el-descriptions-item label="status字段">
+                    <el-descriptions-item label="是否生效">
     {{ detailFrom.status }}
 </el-descriptions-item>
             </el-descriptions>
