@@ -44,7 +44,7 @@
 
             <el-table-column align="left" label="passphrase" prop="passphrase" width="120" />
 
-            <el-table-column align="left" label="交易所ID" prop="exchId" width="120" />
+            <el-table-column align="left" label="交易所" prop="exchId" width="120" />
 
             <el-table-column align="left" label="是否有效" prop="status" width="120" />
 
@@ -98,8 +98,8 @@
               <el-form-item label="passphrase:" prop="passphrase">
                   <el-input v-model="formData.passphrase" :clearable="true" placeholder="请输入passphrase" />
               </el-form-item>
-             <el-form-item label="交易所ID:" prop="exchId">
-                <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所ID">
+             <el-form-item label="交易所:" prop="exchId">
+                <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所">
                   <el-option
                     v-for="item in exchangeOptions"
                     :key="item.value"
@@ -136,7 +136,7 @@
                     <el-descriptions-item label="passphrase">
     {{ detailFrom.passphrase }}
 </el-descriptions-item>
-                    <el-descriptions-item label="交易所ID">
+                    <el-descriptions-item label="交易所">
     {{ detailFrom.exchId }}
 </el-descriptions-item>
                     <el-descriptions-item label="是否有效">
@@ -207,7 +207,7 @@ const formData = ref({
 
 // Validation rules
 const rule = reactive({
-  exchId: [{ required: true, message: '请选择交易所ID', trigger: 'change' }],
+  exchId: [{ required: true, message: '请选择交易所', trigger: 'change' }],
   status: [{ required: true, message: '请选择是否生效', trigger: 'change' }]
 })
 

@@ -79,8 +79,8 @@
               <el-form-item label="序号:" prop="id">
                   <el-input v-model.number="formData.id" :clearable="true" placeholder="请输入序号" />
               </el-form-item>
-              <el-form-item label="交易所ID:" prop="exchId">
-                  <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所ID">
+              <el-form-item label="交易所:" prop="exchId">
+                  <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所">
                     <el-option
                       v-for="item in exchangeOptions"
                       :key="item.value"

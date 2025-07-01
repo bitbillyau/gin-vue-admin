@@ -21,8 +21,8 @@
         <el-form-item label="passphrase:" prop="passphrase">
     <el-input v-model="formData.passphrase" :clearable="true" placeholder="请输入passphrase" />
 </el-form-item>
-         <el-form-item label="交易所ID:" prop="exchId">
-              <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所ID">
+         <el-form-item label="交易所:" prop="exchId">
+              <el-select  v-model="formData.exchId" clearable placeholder="请选择交易所">
                 <el-option
                   v-for="item in exchangeOptions"
                   :key="item.value"
