@@ -24,7 +24,6 @@
                 </el-select>
               </el-form-item>
         <el-form-item>
-        <el-form-item>
           <el-button :loading="btnLoading" type="primary" @click="save">保存</el-button>
           <el-button type="primary" @click="back">返回</el-button>
         </el-form-item>
